@@ -1,23 +1,76 @@
-Notepad++ v7.7.1 enhancements and bug-fixes:
-
-1.  Fix drag and drop tab regression: dragging tab is switched to another tab issue.
-2.  Fix an input regression: Cyrillic, Turkish and other languages input issue in ANSI mode.
-3.  Fix an ASP regression: VB looses syntax highlighting in ASP document.
-4.  Fix Reload dialog displaying issue during File Monitoring.
-5.  Fix "unhide lines" markers disappears issue.
-6.  Fix Plugin menu is not localized issue if no plugin installed.
-7.  Add "Copy File Name" command in context menu of "Folder as Workspace".
-8.  Fix crash while sorting lines with numbers longer than 20 digits.
-9.  Enable Scintilla Virtual Space Option change from macro.
-10. Add Tcl, CMake and AutoIt keywords; add Python and SQL new syntax highlighting cathegories.
+//  https://editor.p5js.org/Kempes/sketches/vIOE7vfQz
+/* 
+    Equipe: 
+        Gabriel Souto Lozano Barbosa - Subturma A (Líder) 
+        Gustavo Henrique Santos de Lima - Subturma A 
+        Etapa 1 & 2
+*/
 
 
-Included plugins:
+var x = 200;
+var y = 355;
+var x2 = 190
+var y2 = 130
 
-1.  NppExport v0.2.8 (32-bit x86 only)
-2.  Converter 4.2.1
-3.  Mime Tool 2.5
+function setup() {
+  createCanvas(400, 400);
+}
 
-Updater (Installer only):
+function draw(nave) {
+  background(0);
 
-* WinGup (for Notepad++) v5.1
+  if(x2 > 400)
+    x2 = 0;
+
+  if(x2 < 0)
+    x2 = 400;
+
+  if(y2 > 400)
+    y2 = 0;
+
+  if(y2 < 0)
+     y2 = 400;
+
+  if (keyIsDown(LEFT_ARROW))
+    x2-=10;
+
+  if (keyIsDown(RIGHT_ARROW))
+    x2+=10;
+
+  if (keyIsDown(UP_ARROW))
+    y2-=10;
+
+  if (keyIsDown(DOWN_ARROW))
+    y2+=10;
+
+  fill(140, 0, 0)
+  rect(x2, y2, 50, 60, 0);
+
+  if(x > 400)
+    x = 0;
+
+  if(x < 0)
+    x = 400;
+
+  if(y > 400)
+    y = 0;
+
+  if(y < 0)
+     y = 400;
+
+  if (keyIsDown(LEFT_ARROW))
+    x-=10;
+
+  if (keyIsDown(RIGHT_ARROW))
+    x+=10;
+
+  if (keyIsDown(UP_ARROW))
+    y-=10;
+
+  if (keyIsDown(DOWN_ARROW))
+    y+=10;
+
+  fill(0,0,180)
+  ellipse(x, y, 50, 50);
+
+}
