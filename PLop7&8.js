@@ -2,7 +2,7 @@
     Equipe: 
         Gabriel Souto Lozano Barbosa - Subturma A (Líder) 
         Gustavo Henrique Santos de Lima - Subturma A 
-        Etapa 5 & 6
+        Etapa 7 & 8
 */
 
 var pontos=0
