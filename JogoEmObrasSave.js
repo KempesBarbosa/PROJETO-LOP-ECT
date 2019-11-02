@@ -2,10 +2,13 @@
 boolean esquerda;
 boolean direita;
 
+//hud
+int pontos;
+
 //blocos
-boolean blocoVis;
-float blocoX;
-float blocoY;
+boolean [] blocoVis;
+float  [] blocoX;
+float  [] blocoY;
 float blocoAlt;
 float blocoLarg;
 color blocoCor;
@@ -31,6 +34,9 @@ void setup()
  size(800,600);
  background(0);
  
+ //score
+ pontos = 0;
+ 
  //inicializar pad
  posX = width/2 - 50;
  posY = 570;
@@ -47,12 +53,20 @@ void setup()
  b_velY = 3;
 
  //iniciliar blocos
- blocoVis = true ;
- blocoX = 0;
- blocoY = 50;
  blocoLarg = 80;
- blocoAlt = 30;
+ blocoAlt = 30 ;
  blocoCor = color(255,255,0);
+ blocoVis = new boolean[10];
+ blocoX = new float[10];
+ blocoY = new float[10];
+ 
+ //preencher vetores de blocos
+ for(int i = 0 ; i < 10; i++)
+ {
+    blocoVis[i] = true;
+      blocoY[i] = 40;
+    blocoX[i] = i*blocoLarg ;
+ }
 }
 
 void draw()
@@ -64,20 +78,25 @@ void draw()
   //atualizar bolinha
   b_posX += b_velX;
   b_posY += b_velY;
-  
   //testa colisão com pad
   if(testeColisao( posX, posY, larg, alt, b_posX, b_posY, b_larg, b_alt))
   {
     b_velY *= -1; 
   }
   //teste colisão bloco
-  if(testeColisao(blocoX, blocoY, blocoLarg, blocoAlt, b_posX, b_posY, b_larg, b_alt))
+  for(int i = 0; i <blocoX.length; i++)
   {
-    b_velY *= -1;
-    //destruir bloco
-    blocoVis = false;
+      if(blocoVis[i]  && testeColisao(blocoX[i], blocoY[i], blocoLarg, blocoAlt,
+                                      b_posX, b_posY, b_larg, b_alt))
+      {
+        //inverter direção y
+         b_velY *= -1;
+         //destruir bloco
+         blocoVis[i] = false;
+         //soma pontuação
+         pontos += 1;
+       }
   }
-  
   //limite da bolinha
   if(b_posX < 0 || b_posX > 790) b_velX *= -1;
   if(b_posY < 0 || b_posY > 590) b_velY *= -1;
@@ -95,11 +114,19 @@ void draw()
   rect(posX,posY,larg,alt);
   //bloco
   stroke(0);
-   if(blocoVis)
+  for(int i = 0; i < blocoX.length; i++)
+  {
+   if(blocoVis[i])
    {
      fill(blocoCor);
-      rect(blocoX, blocoY, blocoLarg, blocoAlt);
+      rect(blocoX[i], blocoY[i] , blocoLarg, blocoAlt);
    }
+  }
+  
+  //hud
+  fill(255);
+  textSize(28);
+  text("pontuação:"+pontos, 20, 30);
 }
 
 //método teste colisão de retângulos 
