@@ -1,169 +1,123 @@
-//entradas
-boolean esquerda;
-boolean direita;
+//pos pad
+int LrectY = 350;
+int RrectY = 350;
+//Bola
+float ellx = 350;
+float elly = 350;
+//Mov Bola
+boolean moveRigth = true;
+boolean moveDown = true;
 
-//hud
-int pontos;
+float speedSide = 3;
+float speedVertical = 4;
+//Pontuação
+int countR = 0;
+int countL = 0;
+PFont font;
 
-//blocos
-boolean [] blocoVis;
-float  [] blocoX;
-float  [] blocoY;
-float blocoAlt;
-float blocoLarg;
-color blocoCor;
-
-//pad
-float posX;
-float posY;
-float alt;
-float larg;
-color cor;
-
-//bolinha
-float b_posX;
-float b_posY;
-float b_alt;
-float b_larg;
-float b_velX;
-float b_velY;
-color b_cor;
-
-void setup()
-{
- size(800,600);
- background(0);
- 
- //score
- pontos = 0;
- 
- //inicializar pad
- posX = width/2 - 50;
- posY = 570;
- larg = 100;
- alt = 20;
- cor = color(0,0,255);
- //inicializar bolinha
- b_posX = width/2;
- b_posY = height/2;
- b_larg = 10;
- b_alt = 10;
- b_cor = color(0,255,0);
- b_velX = 3;
- b_velY = 3;
-
- //iniciliar blocos
- blocoLarg = 80;
- blocoAlt = 30 ;
- blocoCor = color(255,255,0);
- blocoVis = new boolean[10];
- blocoX = new float[10];
- blocoY = new float[10];
- 
- //preencher vetores de blocos
- for(int i = 0 ; i < 10; i++)
- {
-    blocoVis[i] = true;
-      blocoY[i] = 40;
-    blocoX[i] = i*blocoLarg ;
- }
+void setup () {
+  
+  size ( 700, 700);
+  background (0);
+  font = loadFont("Arial-BoldMT-48.vlw");
 }
-
-void draw()
-{
-  //ENTRADA
-  if(esquerda) posX -= 10;
-  else if(direita) posX += 10;
-  //LÓGICA
-  //atualizar bolinha
-  b_posX += b_velX;
-  b_posY += b_velY;
-  //testa colisão com pad
-  if(testeColisao( posX, posY, larg, alt, b_posX, b_posY, b_larg, b_alt))
+void draw () {
+  background (0);
+  
+  textFont (font);
+  
+  
+  fill(250,0,0);
+  ellipse(ellx,elly,50,50);
+  text ("Pong", 300, 40);
+  
+  fill(0,255,0);
+  rect(20,LrectY,30,100);
+  text (countL,200,50); 
+  if(LrectY < 0) 
   {
-    b_velY *= -1; 
+    LrectY = 0;
   }
-  //teste colisão bloco
-  for(int i = 0; i <blocoX.length; i++)
+  if(LrectY > 600) 
   {
-      if(blocoVis[i]  && testeColisao(blocoX[i], blocoY[i], blocoLarg, blocoAlt,
-                                      b_posX, b_posY, b_larg, b_alt))
-      {
-        //inverter direção y
-         b_velY *= -1;
-         //destruir bloco
-         blocoVis[i] = false;
-         //soma pontuação
-         pontos += 1;
-       }
-  }
-  //limite da bolinha
-  if(b_posX < 0 || b_posX > 790) b_velX *= -1;
-  if(b_posY < 0 || b_posY > 590) b_velY *= -1;
-  //limite do pad
-  if(posX < 0) posX = 0;
-  else if( posX > 700) posX = 700 ;
-  //VISUAL
-  background(0) ;
-  noStroke() ;
-  //bolinha
-  fill(b_cor);
-  rect(b_posX,b_posY,b_larg,b_alt);
-  //pad
-  fill(cor);
-  rect(posX,posY,larg,alt);
-  //bloco
-  stroke(0);
-  for(int i = 0; i < blocoX.length; i++)
-  {
-   if(blocoVis[i])
-   {
-     fill(blocoCor);
-      rect(blocoX[i], blocoY[i] , blocoLarg, blocoAlt);
-   }
+    LrectY = 600;
   }
   
-  //hud
-  fill(255);
-  textSize(28);
-  text("pontuação:"+pontos, 20, 30);
-}
-
-//método teste colisão de retângulos 
-boolean testeColisao( float x1, float y1, float larg1, float alt1,
-                      float x2,float y2,float larg2,float alt2)
-{
-  boolean horizontal = false;
-  boolean vertical = false;
-
-//colisão em x
-if(x1 < x2) horizontal = abs(x2 - x1) < larg1 ;
-else horizontal =abs(x1 - x2) < larg2 ;
-//colisão em y
-if(y1 < y2) vertical = abs(y2 - y1) < alt1;
-else vertical = abs(y1 - y2) < alt2;
-
- return horizontal && vertical;
-}
-
-void keyPressed()
-{
-  if(key == CODED)
+  fill(0,0,255);
+  rect(630,RrectY,30,100);
+  text (countR,500,50);
+  if(RrectY < 0) 
   {
-    if(keyCode == LEFT)
-      esquerda = true ;
-    else if(keyCode == RIGHT)
-      direita = true;
+    RrectY = 0;
   }
-}
-
-void keyReleased()
-{
-  if(key == CODED)
+  if(RrectY > 600) 
   {
-    if(keyCode == LEFT)
-      esquerda = false;
-    else if(keyCode == RIGHT)
-      direita = false; 
+    RrectY = 600;
   }
-}
+  
+  if (keyPressed == true && key == 'w') {
+    LrectY = LrectY - 6;
+  }
+  if (keyPressed == true && key == 's') {
+    LrectY = LrectY + 6;
+  }
+  
+  if (keyPressed == true && key == 'i') {
+    RrectY = RrectY - 6;
+  }
+  if (keyPressed == true && key == 'k') {
+    RrectY = RrectY + 6;
+  }
+  if (moveRigth == true)
+  {
+    ellx = ellx + speedSide;
+  }
+  else
+  {
+    ellx = ellx - speedSide;
+  }
+  
+  if (moveDown == true)
+  {
+    elly = elly + speedVertical;
+  }
+  else
+  {
+    elly = elly - speedVertical;
+  }
+  
+  
+  if (elly <= 10) {
+    moveDown = true;
+    speedSide = random(3, 6);
+  }
+  if (elly >= 690) {
+    moveDown = false;
+    speedSide = random(3, 6);
+  }
+  
+ 
+  if (ellx >= 690) {
+    countL += 1;
+    ellx = 350;
+    elly = 350;
+    speedSide = random(3,6);
+  }
+  if (ellx <= 10) {
+    countR += 1;
+    ellx = 350;
+    elly = 350;
+    speedSide = random(3, 6);
+  }
+  
+  if (ellx >=615 && elly > RrectY && elly < (RrectY + 100)) {
+    moveRigth = false;
+    speedSide = random(3, 6);
+  }
+  if (ellx <= 75 && elly > LrectY && elly < (LrectY + 100)) {
+    moveRigth = true;
+    speedSide = random(3, 6);
+  }
+} 
+
+ 
