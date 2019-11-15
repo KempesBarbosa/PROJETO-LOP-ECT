@@ -1,4 +1,8 @@
-//pos pad
+//tela
+int tela = 1;
+
+
+//pos pads
 int LrectY = 350;
 int RrectY = 350;
 //Bola
@@ -22,7 +26,32 @@ void setup () {
   font = loadFont("Arial-BoldMT-48.vlw");
 }
 void draw () {
-  background (0);
+  
+  if (tela == 1) {
+  background(0);
+  textSize(40);
+  fill(255);
+  text("PING PONG", 250, 350);
+  textSize(20);
+  fill(0,255,0);
+  text("Press W and S to play", 10, 400);
+  fill(0,0,255);
+  text("Press I and K to play", 500, 400);
+  textSize(40);
+  fill(255);
+  text("Precione B para iniciar.",175,600);
+  
+    if(keyPressed == true && key == 'b' ) {
+      tela = 2;
+    }
+  }
+  if (tela == 2) {
+    background(255);
+    
+       //informações
+    textSize(20);
+    fill(0, 100, 150);
+    
   
   textFont (font);
   
@@ -118,6 +147,44 @@ void draw () {
     moveRigth = true;
     speedSide = random(3, 6);
   }
-} 
-
+}
+    if( countR == 3) {
+      tela = 3;
+      textSize(32);
+      fill(255);
+      
+    }
+    if (countL == 3 )
+      tela = 4;
+      textSize(32);
+      fill(255);{
+      
+    }
+    if ( tela == 3 ) {
+      background(0);
+      textSize(32);
+      fill(0, 0, 255);
+      text("AZUL GANHOU!", 250, 100);
+      fill(255);
+      text("Press V to restart", 250, 350);
+      countR = 0;
+      countL = 0;
+      if (keyPressed == true && key == 'v') {
+         tela = 1;
+      }
+   }
+   if ( tela == 4 ) {
+      background(0);
+      textSize(32);
+      fill(0, 255, 0);
+      text("VERDE GANHOU!", 250, 100);
+      fill(255);
+      text("Press V to restart.", 250, 350);
+      countR = 0;
+      countL = 0;
+      if (keyPressed == true && key == 'v') {
+         tela = 1;
+      }
+   }
+}
  
